@@ -19,5 +19,5 @@ use App\Http\Controllers\PublicController;
 Route::get('/', [PublicController::class, 'home'])->name('home');
 
 // rotte form
-Route::get('/games/create', [GameController::class, 'create'])->name('game.create');
-Route::get('/games/store', [GameController::class, 'store'])->name('game.store');
+Route::get('/game/create', [GameController::class, 'create'])->name('game.create');
+Route::post('/game/store', [GameController::class, 'store'])->name('game.store');
