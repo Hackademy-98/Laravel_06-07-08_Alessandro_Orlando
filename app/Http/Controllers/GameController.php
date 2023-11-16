@@ -13,7 +13,8 @@ class GameController extends Controller
      */
     public function index()
     {
-        //
+        $games = Game::all();
+        return view('game.index',compact('games'));
     }
 
     /**
@@ -48,7 +49,7 @@ return redirect()->route('game.create')->with('success','gioco creato con succes
      */
     public function show(Game $game)
     {
-        //
+      return view('game.show',compact('game'));
     }
 
     /**
@@ -56,7 +57,7 @@ return redirect()->route('game.create')->with('success','gioco creato con succes
      */
     public function edit(Game $game)
     {
-        //
+        return view('game.edit',compact('game'));
     }
 
     /**
@@ -64,7 +65,16 @@ return redirect()->route('game.create')->with('success','gioco creato con succes
      */
     public function update(Request $request, Game $game)
     {
-        //
+        $file = $request->file('img');
+
+        $game->update([
+          "title" => $request->title,
+          "description" => $request->description,
+          "price" => $request->price,
+          "img" => $file ? $file->store("public/images") : $game->img
+        ]);
+
+        return redirect()->route("game.edit", compact('game'))->with("success","Il gioco è stato aggiornato correttamente");
     }
 
     /**
@@ -72,6 +82,8 @@ return redirect()->route('game.create')->with('success','gioco creato con succes
      */
     public function destroy(Game $game)
     {
-        //
+        $game->delete();
+
+        return redirect()->route("")->with("success","Gioco eliminato con successo");
     }
 }
