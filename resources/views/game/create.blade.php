@@ -12,7 +12,7 @@
   </div>
   @endif
     <div class="col-12">
-
+       @dump($categories)
         <form method="POST" action="{{route('game.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
@@ -34,11 +34,20 @@
               </div>
 
               <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category">
+                  <option selected>Select category</option>
+                  @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endforeach
+                </select> 
+              </div>
+              
+              <div class="mb-3">
                 <label for="img" class="form-label">Image</label>
                 <input type="file" class="form-control" id="img" name="img">  
                 @error('img') <p class="text-danger">{{$message}}</p> @enderror 
               </div>
-
 
               <div class="mt-5 d-flex justify-content-center">
               <button type="submit" class="btn btn-primary w-25">Submit</button>

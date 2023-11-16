@@ -12,6 +12,7 @@
             </div>
             @endif
 
+            
             @foreach ($games as $game)
             <div class="col-3 mt-3">
                 <div class="card">
@@ -19,6 +20,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$game->title}}</h5>
                         <p class="card-text">{{$game->price}}</p>
+                        <p class="text-end">{{ $game->category->name }}</p>
                         <div class="d-flex justify-content-around">
                             <a href="{{ route('game.show', compact('game')) }}" class="btn btn-primary">show more</a>
                             <a href="{{ route('game.edit', compact('game')) }}" class="btn btn-warning">edit</a>

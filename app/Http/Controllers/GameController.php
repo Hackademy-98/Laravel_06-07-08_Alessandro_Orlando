@@ -8,6 +8,10 @@ use View;
 
 class GameController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware("auth")->except('index');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -22,7 +26,8 @@ class GameController extends Controller
      */
     public function create()
     {
-        return View('game.create');
+        $categories = Category::all();
+        return view('game.create');
     }
 
     /**
@@ -30,13 +35,14 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-
+        dd($request);
         $file = $request->file('img');
 
         Game::create([
           "title" => $request->title,
           "description" => $request->description,
           "price" => $request->price,
+          "category_id" => $request->category,
           "img" => $file ? $file->store('public/images') : "public/images/default.png"
         ]);
 
@@ -85,5 +91,11 @@ return redirect()->route('game.create')->with('success','gioco creato con succes
         $game->delete();
 
         return redirect()->route("")->with("success","Gioco eliminato con successo");
+    }
+
+// filtra i giochi in base a una categoria selezionata
+public function filterByCategory(Category $category){
+    return view('game.filterByCategory',compact("category"));
+
     }
 }
